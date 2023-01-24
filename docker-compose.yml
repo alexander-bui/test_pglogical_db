@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  db:
+    image: reedws/pglogical:14
+    container_name: postgres_db_logical
+    # persist data beyond lifetime of container
+    volumes:
+      - postgres_data_logical:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=sample_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testing101
+    ports:
+      - "5431:5432"
+
+volumes:
+    postgres_data_logical:
