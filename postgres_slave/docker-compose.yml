@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    build: .
+    container_name: postgres_db_logical_slave
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    # persist data beyond lifetime of container
+    volumes:
+      - postgres_data_logical_slave:/var/lib/postgresql/data/
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
+    environment:
+      - POSTGRES_DB=sample_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testing111
+    ports:
+      - "5433:5432"
+    networks:
+      pg_logic:
+        aliases:
+          - pg_slave      
+
+volumes:
+    postgres_data_logical_slave:
+
+networks:
+  pg_logic:
+    external: true    
